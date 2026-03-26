@@ -18,4 +18,9 @@ def fetch_arxiv_data(query: str, max_results: int = 10):
             'search_query': query, # consulta de búsqueda
             'start': 0, # índice de inicio para paginación
             'max_results': max_results # número máximo de resultados a recuperar
-           
+     }
+
+     response = requests.get(base_url, params=params, timeout=30) # realizar la solicitud GET a la API de arXiv
+     response.raise_for_status() # verificar que la solicitud fue exitosa
+     feed = feedparser.parse(response.text) # parsear la respuesta XML utilizando feedparser
+     return feed.entries # retornar las entradas parseadas del feed
